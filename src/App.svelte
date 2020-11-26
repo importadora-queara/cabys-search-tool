@@ -14,7 +14,8 @@
     ModalFooter,
     ComposedModal,
     ModalBody,
-    ModalHeader
+    ModalHeader,
+    CopyButton
   } from "carbon-components-svelte";
 
   import Header from "./components/Header.svelte";
@@ -66,6 +67,10 @@
     currentSelectedItem = { ...item };
     open = true;
   }
+
+  function handleCopy(content: string) {
+    navigator.clipboard.writeText(content).catch((e) => console.log(error));
+  }
 </script>
 
 <style>
@@ -109,17 +114,30 @@
           <ComposedModal passiveModal size="lg" bind:open>
             <ModalHeader title="Información del Resultado" />
             <ModalBody>
-              {#each Array(9) as _, i}
-                <p>
-                  <strong>{currentSelectedItem.item[`field${i * 2 + 1}`]}
-                    -</strong>
-                  {currentSelectedItem.item[`field${i * 2 + 2}`]}
-                </p>
-              {/each}
+              <Grid>
+                {#each Array(9) as _, i}
+                  <Row>
+                    <Column>
+                      <p>
+                        <strong>{currentSelectedItem.item[`field${i * 2 + 1}`]}
+                          -</strong>
+                        {currentSelectedItem.item[`field${i * 2 + 2}`]}
+                      </p>
+                    </Column>
+                  </Row>
+                {/each}
+                <Row style="margin-top:2em">
+                  <Column lg={8}>
+                    <h4 style="float: left">
+                      Código:
+                      {currentSelectedItem.item.field17}
+                    </h4>
+                    <CopyButton
+                      on:click={() => handleCopy(currentSelectedItem.item.field17)} />
+                  </Column>
+                </Row>
+              </Grid>
             </ModalBody>
-            <ModalFooter style="text-align: center; display: block;">
-              <h4>IVA: {currentSelectedItem.item.field19}</h4>
-            </ModalFooter>
           </ComposedModal>
         {/if}
       {/if}
