@@ -11,7 +11,10 @@
     ListItem,
     ClickableTile,
     Modal,
-    ModalFooter
+    ModalFooter,
+    ComposedModal,
+    ModalBody,
+    ModalHeader
   } from "carbon-components-svelte";
 
   import Header from "./components/Header.svelte";
@@ -103,20 +106,21 @@
           </Column>
         </Row>
         {#if currentSelectedItem}
-          <Modal
-            passiveModal
-            size="lg"
-            bind:open
-            modalHeading={`IVA: ${currentSelectedItem.item.field19}`}>
-            {#each Array(9) as _, i}
-              <p>
-                <strong>{currentSelectedItem.item[`field${i * 2 + 1}`]}
-                  -</strong>
-                {currentSelectedItem.item[`field${i * 2 + 2}`]}
-              </p>
-            {/each}
-            <p style="margin-top: 4em;" />
-          </Modal>
+          <ComposedModal passiveModal size="lg" bind:open>
+            <ModalHeader title="Información del Resultado" />
+            <ModalBody>
+              {#each Array(9) as _, i}
+                <p>
+                  <strong>{currentSelectedItem.item[`field${i * 2 + 1}`]}
+                    -</strong>
+                  {currentSelectedItem.item[`field${i * 2 + 2}`]}
+                </p>
+              {/each}
+            </ModalBody>
+            <ModalFooter style="text-align: center; display: block;">
+              <h4>IVA: {currentSelectedItem.item.field19}</h4>
+            </ModalFooter>
+          </ComposedModal>
         {/if}
       {/if}
     </Grid>
