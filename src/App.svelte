@@ -7,11 +7,7 @@
     Search,
     PaginationNav,
     Button,
-    OrderedList,
-    ListItem,
     ClickableTile,
-    Modal,
-    ModalFooter,
     ComposedModal,
     ModalBody,
     ModalHeader,
@@ -22,6 +18,7 @@
   import Theme from "./components/Theme.svelte";
   import data from "./data/CAByS JSON Data.json";
   import Fuse from "fuse.js";
+  import { onMount } from "svelte";
 
   const options = {
     shouldSort: true,
@@ -54,6 +51,13 @@
     searchResults = fuse.search(searchQuery);
     resultsPage = [...searchResults.slice(0, 25)];
     numberOfPages = Math.floor(searchResults.length / 25);
+    setTimeout(
+      () =>
+        document
+          .getElementsByTagName("nav")[0]
+          .children[0].children[1].children[0].click(),
+      250
+    );
   }
 
   function handlePageChange(pageNumaber: number, itemsPerPage: number) {
@@ -73,6 +77,12 @@
   function handleCopy(content: string) {
     navigator.clipboard.writeText(content).catch((e) => console.log(error));
   }
+
+  let ref: any;
+
+  onMount(() => {
+    console.log("ref: ", ref);
+  });
 </script>
 
 <style>
@@ -105,6 +115,7 @@
         <Row>
           <Column>
             <PaginationNav
+              bind:ref
               total={numberOfPages}
               shown={10}
               on:change={(e) => {
