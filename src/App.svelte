@@ -64,6 +64,8 @@
   }
 
   function handleResultClick(item: any) {
+    scrollTo(0, 0);
+    if (!window.navigator.vibrate(1000)) alert("not working...");
     currentSelectedItem = { ...item };
     open = true;
   }
@@ -106,41 +108,40 @@
               total={numberOfPages}
               shown={10}
               on:change={(e) => {
-                handlePageChange(e.detail.page, 25);
+                handlePageChange(e.detail.page, 10);
               }} />
           </Column>
         </Row>
-        {#if currentSelectedItem}
-          <ComposedModal passiveModal size="lg" bind:open>
-            <ModalHeader title="Información del Resultado" />
-            <ModalBody>
-              <Grid>
-                {#each Array(9) as _, i}
-                  <Row>
-                    <Column>
-                      <p>
-                        <strong>{currentSelectedItem.item[`field${i * 2 + 1}`]}
-                          -</strong>
-                        {currentSelectedItem.item[`field${i * 2 + 2}`]}
-                      </p>
-                    </Column>
-                  </Row>
-                {/each}
-                <Row style="margin-top:2em">
-                  <Column lg={8}>
-                    <h4 style="float: left">
-                      Código:
-                      {currentSelectedItem.item.field17}
-                    </h4>
-                    <CopyButton
-                      on:click={() => handleCopy(currentSelectedItem.item.field17)} />
-                  </Column>
-                </Row>
-              </Grid>
-            </ModalBody>
-          </ComposedModal>
-        {/if}
       {/if}
-    </Grid>
+    </Grid>{#if currentSelectedItem}
+      <ComposedModal passiveModal size="lg" bind:open>
+        <ModalHeader title="Información del Resultado" />
+        <ModalBody>
+          <Grid>
+            {#each Array(9) as _, i}
+              <Row>
+                <Column>
+                  <p>
+                    <strong>{currentSelectedItem.item[`field${i * 2 + 1}`]}
+                      -</strong>
+                    {currentSelectedItem.item[`field${i * 2 + 2}`]}
+                  </p>
+                </Column>
+              </Row>
+            {/each}
+            <Row style="margin-top:2em">
+              <Column lg={8}>
+                <h4 style="float: left">
+                  Código:
+                  {currentSelectedItem.item.field17}
+                </h4>
+                <CopyButton
+                  on:click={() => handleCopy(currentSelectedItem.item.field17)} />
+              </Column>
+            </Row>
+          </Grid>
+        </ModalBody>
+      </ComposedModal>
+    {/if}
   </Content>
 </Theme>
