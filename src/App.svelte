@@ -16,7 +16,7 @@
 
   import Header from "./components/Header.svelte";
   import Theme from "./components/Theme.svelte";
-  import data from "./data/CAByS JSON Data.json";
+  import data from "./data/filteredData.json";
   import Fuse from "fuse.js";
   import { onMount } from "svelte";
 
