@@ -150,6 +150,11 @@
                   on:click={() => handleCopy(currentSelectedItem.item.field17)} />
               </Column>
             </Row>
+            <Row>
+              <Column>
+                <h3>IVA: {currentSelectedItem.item.field19}</h3>
+              </Column>
+            </Row>
           </Grid>
         </ModalBody>
       </ComposedModal>
